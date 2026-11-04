@@ -9,7 +9,12 @@ Este roteiro deve ser concluído antes de habilitar cadastros públicos ou armaz
 - Frontend: URL padrão atualizada; configure a publishable key obtida neste mesmo projeto.
 - Migração inicial: `202611040001_initial_schema.sql`.
 - Endurecimento de políticas: `202611040002_security_hardening.sql`.
-- **Atenção:** o código e as migrações no GitHub não aplicam alterações ao banco. Confirme o estado do novo projeto antes de considerar a integração funcional.
+- Proteção de funções privilegiadas: `202611040003_private_role_helpers.sql`.
+- **Aplicação confirmada em 04/11/2026:** as três migrações constam no histórico do projeto Supabase `tlpbmatbkdphpvnkprxn`.
+- **Verificação do schema:** 16 tabelas públicas encontradas; RLS habilitado nas 16.
+- **Verificação de segurança:** Security Advisors sem alertas após a terceira migração; funções `SECURITY DEFINER` foram retiradas do schema público (os helpers internos ficam no schema `private`).
+- Áreas jurídicas e tipos de documentos iniciais inseridos (12 áreas e 8 tipos).
+- **Pendente:** bucket `legal-documents` ainda não existe; políticas de Storage e testes funcionais com contas distintas não foram executados.
 
 ## Aplicar migrações
 
@@ -62,7 +67,7 @@ Crie o bucket `legal-documents` com:
 - Tipos permitidos definidos por uma lista explícita de formatos necessários.
 - Pastas de submissão com prefixo do UUID do usuário.
 
-A migração exige que `submissions.storage_path` comece com `<UUID-do-usuário>/`. As políticas do Storage ainda precisam ser criadas e testadas separadamente. Não libere upload enquanto elas não estiverem prontas.
+A migração exige que `submissions.storage_path` comece com `<UUID-do-usuário>/`. A consulta de validação confirmou que o bucket ainda não existe. As políticas do Storage precisam ser criadas e testadas separadamente. Não libere upload enquanto elas não estiverem prontas.
 
 ## Matriz de testes obrigatória
 
@@ -99,10 +104,11 @@ No Supabase Dashboard:
 
 ## Critérios para liberar
 
-- [ ] A migração inicial e a de endurecimento aparecem no histórico do novo banco.
-- [ ] Todas as tabelas públicas têm RLS habilitado.
-- [ ] Matriz de testes executada sem falhas.
+- [x] As três migrações aparecem no histórico do novo banco.
+- [x] Todas as 16 tabelas públicas têm RLS habilitado.
+- [x] Security Advisors sem alertas após o endurecimento de funções privilegiadas.
 - [ ] Bucket privado e políticas de Storage testados com A e B.
+- [ ] Matriz de testes executada sem falhas.
 - [ ] E-mail, recuperação de senha e URLs de redirect validados.
 - [ ] Backups e restauração testados.
 - [ ] Revisão LGPD, monitoramento e plano de incidentes concluídos.
