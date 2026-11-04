@@ -72,6 +72,7 @@ export default function App() {
       </header>
 
       <main>
+        {activeTab === 'Meu caderno' ? <StudyNotebook /> : <>
         <section className="hero">
           <div className="hero-copy">
             <div className="eyebrow"><span /> CENTRAL DE CONHECIMENTO JURÍDICO</div>
@@ -93,9 +94,8 @@ export default function App() {
           {visibleDocuments.length === 0 && <div className="empty-state"><span>⌕</span><h3>Nenhum documento encontrado</h3><p>Tente outra palavra-chave ou selecione uma área diferente.</p><button className="text-button" onClick={() => { setQuery(''); setActiveCategory('Todas as áreas'); setActiveTab('Explorar') }}>Limpar filtros</button></div>}
         </section>
 
-        {activeTab === 'Meu caderno' && <StudyNotebook />}
-
         <section className="contribute"><div><div className="eyebrow">CONSTRUÇÃO COLABORATIVA</div><h2>Conhecimento cresce<br />quando é compartilhado.</h2><p>Em breve, você poderá enviar materiais, colaborar com a comunidade e acompanhar suas contribuições em um só lugar.</p></div><button className="light-button" onClick={() => setAuthMode('signup')}>Conheça a área de contribuição <span>→</span></button></section>
+        </>}
       </main>
 
       <footer><a className="brand footer-brand" href="#"><span className="brand-mark">D</span><span>data<span>juris</span><small>CONHECIMENTO JURÍDICO</small></span></a><p>Plataforma independente de organização e pesquisa jurídica.</p><span>© 2026 DataJuris · Protótipo em desenvolvimento</span></footer>
