@@ -4,26 +4,27 @@ Este roteiro deve ser concluído antes de habilitar cadastros públicos ou armaz
 
 ## Estado da integração
 
-- Projeto: `acqausvydpkvciwmyski`
-- Frontend: URL e chave publishable configuradas.
+- Projeto selecionado: `tlpbmatbkdphpvnkprxn`
+- URL: `https://tlpbmatbkdphpvnkprxn.supabase.co`
+- Frontend: URL padrão atualizada; configure a publishable key obtida neste mesmo projeto.
 - Migração inicial: `202611040001_initial_schema.sql`.
 - Endurecimento de políticas: `202611040002_security_hardening.sql`.
-- **Atenção:** commits no GitHub não aplicam migrações ao banco. A aplicação real precisa ser confirmada no Supabase.
+- **Atenção:** o código e as migrações no GitHub não aplicam alterações ao banco. Confirme o estado do novo projeto antes de considerar a integração funcional.
 
 ## Aplicar migrações
 
 Com Supabase CLI autenticada e o projeto correto selecionado:
 
 ```bash
-supabase link --project-ref acqausvydpkvciwmyski
+supabase link --project-ref tlpbmatbkdphpvnkprxn
 supabase db push
 ```
 
-Antes de confirmar a operação, confira o diff apresentado pela CLI. Não execute em outro projeto/ambiente por engano.
+Antes de confirmar a operação, confira o diff apresentado pela CLI. Como este é um Project ID diferente do anteriormente documentado, não presuma que o histórico de migrações ou os dados do projeto anterior existam aqui.
 
 ## Verificar tabelas e RLS
 
-Execute no SQL Editor do projeto:
+Execute no SQL Editor do novo projeto:
 
 ```sql
 select
@@ -98,7 +99,7 @@ No Supabase Dashboard:
 
 ## Critérios para liberar
 
-- [ ] As duas migrações aparecem no histórico do banco.
+- [ ] A migração inicial e a de endurecimento aparecem no histórico do novo banco.
 - [ ] Todas as tabelas públicas têm RLS habilitado.
 - [ ] Matriz de testes executada sem falhas.
 - [ ] Bucket privado e políticas de Storage testados com A e B.
