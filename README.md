@@ -16,11 +16,11 @@
 
   <p>
     <img src="https://img.shields.io/github/actions/workflow/status/freitasdeveloper/DataJuris/ci.yml?branch=main&label=CI&logo=githubactions&logoColor=white&style=flat-square" alt="Status CI" />
+    <img src="https://img.shields.io/github/actions/workflow/status/freitasdeveloper/DataJuris/database-tests.yml?branch=main&label=Database%20Tests&logo=githubactions&logoColor=white&style=flat-square" alt="Status testes de banco" />
     <img src="https://img.shields.io/github/actions/workflow/status/freitasdeveloper/DataJuris/deploy-pages.yml?branch=main&label=GitHub%20Pages&logo=githubpages&logoColor=white&style=flat-square" alt="Status deploy GitHub Pages" />
     <img src="https://img.shields.io/badge/React-19-149ECA?logo=react&logoColor=white&style=flat-square" alt="React 19" />
-    <img src="https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white&style=flat-square" alt="TypeScript" />
-    <img src="https://img.shields.io/badge/Vite-6-646CFF?logo=vite&logoColor=white&style=flat-square" alt="Vite" />
-    <img src="https://img.shields.io/badge/Licença-a_definir-lightgrey?style=flat-square" alt="Licença a definir" />
+    <img src="https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&style=flat-square" alt="TypeScript" />
+    <img src="https://img.shields.io/badge/Vite-6-646CFF?logo=vite&style=flat-square" alt="Vite" />
   </p>
 </div>
 
@@ -42,23 +42,24 @@ A proposta é facilitar a descoberta de referências, a organização de materia
 
 | ❤️ Favoritos | 🔐 Conta e acesso |
 |:--|:--|
-| Salve documentos de interesse neste navegador. | Interface de login e cadastro preparada para integração com Supabase. A autenticação depende da configuração do serviço. |
+| Salve documentos de interesse neste navegador. | Interface de login/cadastro preparada; autenticação real depende de configuração e testes do Supabase. |
 
 ### Funcionalidades e estágio atual
 
 | Recurso | Situação | Observações |
 |:--|:--:|:--|
 | Interface responsiva e navegação | 🟢 Disponível | Front-end publicado no GitHub Pages |
-| Pesquisa e filtros da biblioteca | 🟢 Disponível | Trabalham com conteúdo demonstrativo local |
+| Pesquisa e filtros da biblioteca | 🟢 Disponível | Conteúdo demonstrativo local |
 | Favoritos | 🟢 Disponível | Armazenados neste navegador |
-| Meu Caderno | 🟢 Disponível | Criar, editar, excluir e pesquisar anotações locais |
-| Modal de login e cadastro | 🟡 Preparado | Requer URL e chave pública do projeto Supabase |
-| Banco de dados e políticas de acesso | 🟡 Estrutura inicial | Migração SQL disponível; requer implantação e testes |
-| Upload e biblioteca real de arquivos | ⚪ Planejado | Ainda não conectado ao armazenamento |
-| Fórum, comunidade e moderação | ⚪ Planejado | Próximas etapas de desenvolvimento |
-| Painel administrativo | ⚪ Planejado | Requer backend e perfis de acesso |
+| Meu Caderno | 🟢 Disponível | Anotações locais; sem sincronização entre dispositivos |
+| Banco de dados Supabase | 🟡 Implantado | 16 tabelas com RLS; histórico de migrações e testes de usuários ainda pendentes |
+| Segurança de conteúdo | 🟡 Base implantada | Funções privadas, triggers e índices; revisão funcional contínua |
+| Storage privado | 🟡 Configurado | Bucket e políticas implantados; upload/download da interface ainda não validado |
+| Autenticação real | 🟡 Pendente | Exige SMTP, redirects e testes com contas distintas |
+| Fórum e contribuições | ⚪ Em integração | Estrutura de banco criada; fluxos da interface ainda não validados |
+| Painel administrativo | ⚪ Planejado | Requer fluxos de gestão e autorização ponta a ponta |
 
-<sub>Legenda: 🟢 disponível no protótipo · 🟡 preparado, depende de configuração/validação · ⚪ planejado.</sub>
+<sub>Legenda: 🟢 disponível no protótipo · 🟡 infraestrutura preparada/implantada, validação pendente · ⚪ planejado ou não integrado.</sub>
 
 ## 🧭 Visão do produto
 
@@ -90,10 +91,12 @@ flowchart TD
 - **TypeScript** — tipagem e manutenção do código.
 - **Vite** — desenvolvimento e compilação.
 - **CSS** — identidade visual e responsividade.
-- **Supabase** — integração planejada para autenticação, banco de dados e armazenamento.
-- **GitHub Actions + GitHub Pages** — validação automatizada e publicação do front-end.
+- **Supabase** — autenticação, PostgreSQL com RLS e Storage privado.
+- **GitHub Actions + GitHub Pages** — compilação, testes automatizados e publicação.
 
-## 💻 Executar localmente
+## 💻 Executar localmente (opcional)
+
+O projeto pode ser trabalhado diretamente pelo GitHub. Não é necessário manter uma cópia local para consultar o código ou acompanhar as Actions.
 
 ### Pré-requisitos
 
@@ -116,17 +119,15 @@ npm run build
 npm run preview
 ```
 
-## 🔑 Configuração do Supabase
+## 🔑 Supabase e segurança
 
-A integração está preparada para o projeto `tlpbmatbkdphpvnkprxn` (`https://tlpbmatbkdphpvnkprxn.supabase.co`); configure a publishable key correspondente a esse projeto. Para habilitar a autenticação e os recursos conectados:
+O projeto utiliza o Supabase `tlpbmatbkdphpvnkprxn` (`https://tlpbmatbkdphpvnkprxn.supabase.co`). A estrutura inicial já foi implantada: seis migrações versionadas, 16 tabelas públicas protegidas por RLS, bucket privado, políticas de Storage, índices e triggers de integridade.
 
-1. Crie um projeto no [Supabase](https://supabase.com/).
-2. Copie o arquivo de exemplo `.env.example` para `.env.local`.
-3. Preencha `VITE_SUPABASE_URL` e `VITE_SUPABASE_PUBLISHABLE_KEY` com os dados do mesmo projeto Supabase.
-4. Aplique a migração SQL disponível em `supabase/migrations/` no projeto correto.
-5. Revise e teste as políticas de segurança e o armazenamento antes de disponibilizar dados reais.
+**Atenção ao histórico:** o conector registrou operações com timestamps diferentes dos seis arquivos versionados. O workflow manual **Repair Supabase Migration History** foi adicionado para reconciliar apenas o histórico, sem reaplicar SQL. Antes de executá-lo, configure os secrets `SUPABASE_ACCESS_TOKEN` e `SUPABASE_DB_PASSWORD` nas configurações do repositório e siga o [guia de validação](docs/SUPABASE_VALIDATION.md).
 
-**Atenção:** nunca coloque chaves secretas ou `service_role` no código do navegador, no repositório ou em variáveis com prefixo `VITE_`. A chave pública/anon não substitui as políticas de segurança do banco.
+O workflow **DataJuris Database Tests** reconstrói um banco Supabase limpo no GitHub Actions e executa testes pgTAP a cada push/PR em `main`.
+
+**Nunca coloque chaves secretas ou `service_role` no código do navegador, no repositório ou em variáveis com prefixo `VITE_`.** A chave pública/publishable não substitui as políticas de segurança do banco.
 
 Mais detalhes: [guia de implantação](docs/DEPLOYMENT.md) · [validação Supabase](docs/SUPABASE_VALIDATION.md) · [revisão inicial de segurança](docs/SECURITY_REVIEW.md).
 
@@ -137,13 +138,14 @@ Mais detalhes: [guia de implantação](docs/DEPLOYMENT.md) · [validação Supab
 - [x] Favoritos locais.
 - [x] Caderno de estudos local.
 - [x] Estrutura inicial de banco de dados e políticas RLS.
-- [x] Base de autenticação e modal de acesso.
-- [ ] Configurar e validar projeto Supabase real.
+- [x] Storage privado, índices e triggers de integridade.
+- [x] Testes automatizados de base de dados adicionados ao GitHub Actions.
+- [ ] Reconciliar histórico remoto das migrações.
+- [ ] Configurar e validar autenticação real com contas de teste.
 - [ ] Persistir documentos, favoritos e anotações por usuário.
-- [ ] Upload e download seguro de arquivos.
-- [ ] Painel administrativo e gestão de permissões.
-- [ ] Contribuições, fórum e moderação.
-- [ ] Testes automatizados de fluxos, segurança e acessibilidade.
+- [ ] Integrar upload e download seguro de arquivos à interface.
+- [ ] Concluir painel administrativo, contribuições, fórum e moderação.
+- [ ] Testes completos de fluxos, segurança, acessibilidade e carga.
 
 Consulte o [roadmap detalhado](docs/ROADMAP.md) e o [status de implementação](docs/IMPLEMENTATION_STATUS.md).
 
@@ -164,6 +166,7 @@ Sugestões, relatos de problemas e melhorias são bem-vindos. Abra uma [Issue](h
 - [Roadmap do produto](docs/ROADMAP.md)
 - [Status da implementação](docs/IMPLEMENTATION_STATUS.md)
 - [Guia de implantação](docs/DEPLOYMENT.md)
+- [Validação do Supabase e testes](docs/SUPABASE_VALIDATION.md)
 - [Revisão inicial de segurança](docs/SECURITY_REVIEW.md)
 
 ---
@@ -171,9 +174,5 @@ Sugestões, relatos de problemas e melhorias são bem-vindos. Abra uma [Issue](h
 <div align="center">
   <strong>DATAJURIS</strong><br />
   <sub>Conhecimento jurídico em movimento.</sub><br /><br />
-  <a href="https://freitasdeveloper.github.io/DataJuris/">🌐 Abrir demonstração</a>
-  &nbsp;·&nbsp;
-  <a href="https://github.com/freitasdeveloper/DataJuris/issues">💡 Sugerir melhoria</a>
-  &nbsp;·&nbsp;
-  <a href="https://github.com/freitasdeveloper/DataJuris">⭐ Ver repositório</a>
+  <a href="https://freitasdeveloper.github.io/DataJuris/">Acessar demonstração</a>
 </div>
