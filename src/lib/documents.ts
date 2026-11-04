@@ -13,7 +13,7 @@ export type LibraryDocument = {
 
 export async function searchPublishedDocuments(search = '', areaId?: string) {
   if (!isSupabaseConfigured || !supabase) {
-    throw new Error('Banco de dados não configurado. Defina VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY.')
+    throw new Error('Banco de dados não configurado. Defina VITE_SUPABASE_URL e VITE_SUPABASE_PUBLISHABLE_KEY.')
   }
 
   let request = supabase
