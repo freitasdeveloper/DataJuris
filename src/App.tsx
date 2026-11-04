@@ -1,5 +1,8 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { categories, documents } from './data'
+import AuthModal from './components/AuthModal'
+import { signOut } from './lib/auth'
+import { supabase } from './lib/supabase'
 
 const icons = ['▤', '⚖', '⌂', '§', '◇', '▧', '⌘', '◈', '▦', '◉', '▥', '✳']
 
@@ -11,6 +14,23 @@ export default function App() {
     try { return JSON.parse(localStorage.getItem('datajuris:favorites') || '[]') as number[] } catch { return [] }
   })
   const [selectedId, setSelectedId] = useState<number | null>(null)
+  const [authMode, setAuthMode] = useState<'login' | 'signup' | null>(null)
+  const [userEmail, setUserEmail] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!supabase) return
+    let active = true
+    supabase.auth.getSession().then(({ data }) => {
+      if (active) setUserEmail(data.session?.user.email ?? null)
+    })
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUserEmail(session?.user.email ?? null)
+    })
+    return () => {
+      active = false
+      subscription.unsubscribe()
+    }
+  }, [])
 
   const visibleDocuments = useMemo(() => documents.filter((doc) => {
     const matchesCategory = activeCategory === 'Todas as áreas' || doc.area === activeCategory
@@ -27,6 +47,14 @@ export default function App() {
     localStorage.setItem('datajuris:favorites', JSON.stringify(next))
   }
 
+  async function handleSignOut() {
+    try {
+      await signOut()
+    } catch (error) {
+      alert(error instanceof Error ? error.message : 'Não foi possível encerrar a sessão.')
+    }
+  }
+
   return (
     <div className="app-shell">
       <header className="topbar">
@@ -37,7 +65,9 @@ export default function App() {
         <nav className="main-nav">
           {['Explorar', 'Biblioteca', 'Comunidade', 'Conteúdos'].map((item) => <button key={item} className={activeTab === item ? 'nav-link active' : 'nav-link'} onClick={() => setActiveTab(item)}>{item}</button>)}
         </nav>
-        <div className="top-actions"><button className="login-button" onClick={() => alert('A autenticação será conectada na próxima etapa.')}>Entrar</button><button className="primary-button small" onClick={() => alert('O cadastro será implementado junto ao backend.')}>Criar conta <span>↗</span></button></div>
+        <div className="top-actions">
+          {userEmail ? <><span className="user-label" title={userEmail}>{userEmail}</span><button className="login-button" onClick={handleSignOut}>Sair</button></> : <><button className="login-button" onClick={() => setAuthMode('login')}>Entrar</button><button className="primary-button small" onClick={() => setAuthMode('signup')}>Criar conta <span>↗</span></button></>}
+        </div>
       </header>
 
       <main>
@@ -62,12 +92,13 @@ export default function App() {
           {visibleDocuments.length === 0 && <div className="empty-state"><span>⌕</span><h3>Nenhum documento encontrado</h3><p>Tente outra palavra-chave ou selecione uma área diferente.</p><button className="text-button" onClick={() => { setQuery(''); setActiveCategory('Todas as áreas'); setActiveTab('Explorar') }}>Limpar filtros</button></div>}
         </section>
 
-        <section className="contribute"><div><div className="eyebrow">CONSTRUÇÃO COLABORATIVA</div><h2>Conhecimento cresce<br />quando é compartilhado.</h2><p>Em breve, você poderá enviar materiais, colaborar com a comunidade e acompanhar suas contribuições em um só lugar.</p></div><button className="light-button" onClick={() => alert('O fluxo de contribuições será ativado após a implementação de login e moderação.')}>Conheça a área de contribuição <span>→</span></button></section>
+        <section className="contribute"><div><div className="eyebrow">CONSTRUÇÃO COLABORATIVA</div><h2>Conhecimento cresce<br />quando é compartilhado.</h2><p>Em breve, você poderá enviar materiais, colaborar com a comunidade e acompanhar suas contribuições em um só lugar.</p></div><button className="light-button" onClick={() => setAuthMode('signup')}>Conheça a área de contribuição <span>→</span></button></section>
       </main>
 
       <footer><a className="brand footer-brand" href="#"><span className="brand-mark">D</span><span>data<span>juris</span><small>CONHECIMENTO JURÍDICO</small></span></a><p>Plataforma independente de organização e pesquisa jurídica.</p><span>© 2026 DataJuris · Protótipo em desenvolvimento</span></footer>
 
       {selected && <div className="modal-backdrop" onClick={() => setSelectedId(null)}><section className="detail-modal" onClick={(e) => e.stopPropagation()}><button className="modal-close" onClick={() => setSelectedId(null)}>×</button><span className="file-type">{selected.format}</span><div className="doc-category">{selected.area}</div><h2>{selected.title}</h2><p>{selected.description}</p><div className="detail-meta"><span>Tipo: {selected.kind}</span><span>Atualizado: {selected.updatedAt}</span><span>{selected.downloads.toLocaleString('pt-BR')} acessos demonstrativos</span></div><div className="notice">Este é um registro demonstrativo. O arquivo original, download e revisão jurídica serão conectados ao backend após a implementação do repositório de documentos.</div><button className="primary-button" onClick={() => toggleFavorite(selected.id)}>{favorites.includes(selected.id) ? 'Remover dos favoritos' : 'Salvar nos favoritos'}</button></section></div>}
+      {authMode && <AuthModal mode={authMode} onClose={() => setAuthMode(null)} />}
     </div>
   )
 }
