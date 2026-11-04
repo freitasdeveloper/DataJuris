@@ -25,21 +25,21 @@
 
 ## Classificação preliminar sugerida
 
-Classificação baseada na pasta de origem, nome do arquivo e texto/título extraído. É uma triagem para distribuição, não uma classificação jurídica definitiva.
+Classificação conservadora baseada na pasta de origem, nome do arquivo e título extraído. É uma triagem para distribuição, não uma classificação jurídica definitiva.
 
 | Área sugerida | Itens |
 |---|---:|
-| Direito Empresarial | 479 |
-| Direito Imobiliário | 356 |
-| Direito Contratual/Civil | 279 |
-| Direito Trabalhista | 165 |
-| Direito Bancário/Financeiro | 146 |
-| Direito Cultural/Autorais | 131 |
-| Direito Agrário | 119 |
+| Direito Empresarial | 463 |
+| Direito Imobiliário | 320 |
+| Direito Contratual/Civil | 292 |
+| Direito Trabalhista | 146 |
+| Direito Bancário/Financeiro | 137 |
+| Direito Cultural/Autorais | 132 |
+| Direito Agrário | 115 |
 | Direito Civil | 60 |
 | Direito da Saúde | 36 |
 | Direito do Consumidor | 1 |
-| Revisar classificação | 91 |
+| Revisar classificação | 161 |
 | **Total** | **1.863** |
 
 ## Integridade e revisão
