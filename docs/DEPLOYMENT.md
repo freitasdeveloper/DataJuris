@@ -21,7 +21,7 @@ Esses valores públicos são usados como configuração padrão do cliente web. 
 1. Abra o projeto no [Supabase Dashboard](https://supabase.com/dashboard/project/acqausvydpkvciwmyski).
 2. Instale Supabase CLI e autentique localmente.
 3. Execute `supabase link --project-ref acqausvydpkvciwmyski`.
-4. Revise a migração em `supabase/migrations/` e execute `supabase db push` para aplicá-la.
+4. Revise as migrações em `supabase/migrations/` (inicial e endurecimento de segurança) e execute `supabase db push` para aplicá-las em ordem.
 5. Configure o bucket privado `legal-documents`, limite de 20 MB e políticas de Storage. Não torne arquivos privados públicos.
 6. Configure URLs permitidas de autenticação, redirect URLs e SMTP.
 7. Promova o primeiro administrador por operação segura no SQL Editor, após confirmar o UUID do usuário:
