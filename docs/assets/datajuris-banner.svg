@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-labelledby="title desc">
+<title id="title">DataJuris — conhecimento jurídico em movimento</title>
+<desc id="desc">Banner em azul petróleo, verde água e dourado, com símbolo jurídico abstrato e cartões de documentos.</desc>
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#102b35"/><stop offset=".58" stop-color="#164c52"/><stop offset="1" stop-color="#167d76"/></linearGradient>
+  <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8ce0c4"/><stop offset="1" stop-color="#d5f3a5"/></linearGradient>
+  <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4d58a"/><stop offset="1" stop-color="#e9a94d"/></linearGradient>
+  <pattern id="dots" width="26" height="26" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.2" fill="#d8fff1" opacity=".15"/></pattern>
+  <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="16" stdDeviation="14" flood-color="#061b20" flood-opacity=".28"/></filter>
+</defs>
+<rect width="1200" height="360" rx="26" fill="url(#bg)"/><rect width="1200" height="360" rx="26" fill="url(#dots)"/>
+<circle cx="1090" cy="54" r="190" fill="#b6f0d9" opacity=".07"/><circle cx="1000" cy="350" r="230" fill="#e8bf73" opacity=".08"/>
+<g transform="translate(78 78)">
+  <rect width="64" height="64" rx="18" fill="url(#accent)"/>
+  <path d="M19 45V18h12c9 0 14 5 14 13S40 44 31 44h-4v1zm8-8h4c4 0 6-2 6-6s-2-6-6-6h-4z" fill="#123943"/>
+  <text x="82" y="35" fill="#fff" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="35" font-weight="800" letter-spacing="-1.8">data<tspan fill="#9de5c8">juris</tspan></text>
+  <text x="84" y="60" fill="#c8e8df" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="3">CONHECIMENTO JURÍDICO</text>
+</g>
+<text x="80" y="205" fill="#fff" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="39" font-weight="750" letter-spacing="-1.2">Seu conhecimento.</text>
+<text x="80" y="251" fill="url(#accent)" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="39" font-weight="750" letter-spacing="-1.2">Mais estratégico.</text>
+<text x="82" y="291" fill="#d1e8e2" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="15">Pesquisa, organização e produtividade para a rotina jurídica.</text>
+<g filter="url(#shadow)" transform="translate(790 68) rotate(-8 130 115)">
+  <rect x="0" y="18" width="210" height="238" rx="16" fill="#f5f7f1"/>
+  <rect x="20" y="39" width="42" height="42" rx="11" fill="#d9f0e5"/>
+  <path d="M34 68V51h8c5 0 8 3 8 8s-3 9-8 9h-2v0z" fill="#17645d"/>
+  <rect x="75" y="46" width="104" height="8" rx="4" fill="#31545a" opacity=".8"/><rect x="75" y="62" width="76" height="6" rx="3" fill="#9aaead"/>
+  <rect x="20" y="105" width="170" height="7" rx="3.5" fill="#d5dfd9"/><rect x="20" y="124" width="154" height="7" rx="3.5" fill="#d5dfd9"/><rect x="20" y="143" width="165" height="7" rx="3.5" fill="#d5dfd9"/><rect x="20" y="162" width="122" height="7" rx="3.5" fill="#d5dfd9"/>
+  <rect x="20" y="194" width="75" height="27" rx="8" fill="#dff2e9"/><text x="34" y="212" fill="#17645d" font-family="Arial,sans-serif" font-size="9" font-weight="700">DIREITO</text>
+</g>
+<g filter="url(#shadow)" transform="translate(1000 132) rotate(9 80 82)">
+  <rect width="132" height="162" rx="15" fill="#fff" opacity=".96"/>
+  <circle cx="66" cy="48" r="26" fill="#fff0d4"/><path d="M66 29v37m-18-24h36M48 42l-10 17h20zm36 0L74 59h20zM56 70h20" stroke="#b57b2e" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="24" y="91" width="84" height="7" rx="3.5" fill="#31545a"/><rect x="34" y="107" width="64" height="6" rx="3" fill="#b7c8c2"/><rect x="34" y="121" width="64" height="6" rx="3" fill="#b7c8c2"/>
+</g>
+<g transform="translate(1070 35)"><circle r="25" fill="url(#gold)"/><path d="M-7 0h14M0-7v14" stroke="#49371c" stroke-width="3" stroke-linecap="round"/></g>
+</svg>
