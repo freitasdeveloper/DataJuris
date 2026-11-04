@@ -10,12 +10,16 @@ Este roteiro deve ser concluído antes de habilitar cadastros públicos ou armaz
 - Migração inicial: `202611040001_initial_schema.sql`.
 - Endurecimento de políticas: `202611040002_security_hardening.sql`.
 - Proteção de funções privilegiadas: `202611040003_private_role_helpers.sql`.
-- **Aplicação confirmada em 04/11/2026:** as três migrações constam no histórico do projeto Supabase `tlpbmatbkdphpvnkprxn`.
+- Storage privado: `202611040004_private_storage.sql`.
+- Índices de chaves estrangeiras: `202611040005_foreign_key_indexes.sql`.
+- Integridade de campos de moderação: `202611040006_content_integrity_triggers.sql`.
+- **Aplicação confirmada em 04/11/2026:** as seis migrações locais foram implantadas no projeto Supabase `tlpbmatbkdphpvnkprxn`; a API registrou operações individuais no histórico remoto.
 - **Verificação do schema:** 16 tabelas públicas encontradas; RLS habilitado nas 16.
 - **Verificação de segurança:** Security Advisors sem alertas após a terceira migração; funções `SECURITY DEFINER` foram retiradas do schema público (os helpers internos ficam no schema `private`).
 - Áreas jurídicas e tipos de documentos iniciais inseridos (12 áreas e 8 tipos).
 - **Storage aplicado em 04/11/2026:** bucket `legal-documents` privado, limite 20 MB e MIME allowlist (PDF, DOC, DOCX, ODT, TXT e RTF).
 - **Políticas de Storage aplicadas:** upload apenas na pasta UUID do próprio usuário; leitura e atualização pelo proprietário ou equipe staff.
+- **Integridade de conteúdo:** triggers bloqueiam alteração de ocultação/bloqueio por autores, status de denúncia fora de `open`, metadados de moderação em novas submissões e metadados de revisão/publicação por autores.
 - **Restrição intencional:** não existe política de exclusão pelo cliente; exclusões devem passar por fluxo confiável no servidor.
 - **Pendente:** testes de isolamento com contas distintas, Auth por e-mail, fluxos reais de upload/download e reconciliação do histórico local da Supabase CLI.
 
@@ -27,11 +31,11 @@ Com Supabase CLI autenticada e o projeto correto selecionado, reconcilie os quat
 
 ```bash
 supabase link --project-ref tlpbmatbkdphpvnkprxn
-supabase migration repair --status applied 202611040001 202611040002 202611040003 202611040004
+supabase migration repair --status applied 202611040001 202611040002 202611040003 202611040004 202611040005 202611040006
 supabase migration list
 ```
 
-Confirme que as quatro versões locais aparecem como aplicadas e que não há migrações pendentes inesperadas. Só então use `supabase db push` para futuras migrações. Não marque versões como aplicadas se os respectivos arquivos locais não corresponderem ao SQL efetivamente implantado.
+Confirme que as seis versões locais aparecem como aplicadas e que não há migrações pendentes inesperadas. Só então use `supabase db push` para futuras migrações. Não marque versões como aplicadas se os respectivos arquivos locais não corresponderem ao SQL efetivamente implantado.
 
 ## Verificar tabelas e RLS
 
@@ -116,10 +120,11 @@ No Supabase Dashboard:
 
 ## Critérios para liberar
 
-- [x] As três migrações aparecem no histórico do novo banco.
+- [x] As seis migrações locais foram aplicadas ao novo banco.
 - [x] Todas as 16 tabelas públicas têm RLS habilitado.
 - [x] Security Advisors sem alertas após o endurecimento de funções privilegiadas.
 - [x] Bucket privado criado e políticas de upload/leitura/atualização implantadas.
+- [x] Triggers de integridade protegem os campos de moderação e revisão.
 - [ ] Isolamento do Storage testado com A e B (incluindo tentativas de acesso cruzado).
 - [ ] Matriz de testes executada sem falhas.
 - [ ] E-mail, recuperação de senha e URLs de redirect validados.
