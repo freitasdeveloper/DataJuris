@@ -1,3 +1,5 @@
+create extension if not exists pgtap with schema extensions;
+
 begin;
 
 select plan(13);
@@ -47,7 +49,7 @@ select ok(
 );
 
 select ok(
-  (select count(*) = 1 and bool_and(not public)
+  (select count(*) = 1 and bool_and(public = false)
    from storage.buckets
    where id = 'legal-documents'),
   'the legal-documents bucket exists and is private'
