@@ -41,6 +41,7 @@
 7. Fazer SAST, dependabot, análise de dependências, pentest e testes de carga.
 
 ## Critério de liberação
-A plataforma só deve ser liberada quando os itens acima estiverem implementados, testados e documentados, com ausência de vulnerabilidades críticas/altas não mitigadas. 5. Aplicar e validar a migração `202611040002_security_hardening.sql` e executar a matriz de testes em `docs/SUPABASE_VALIDATION.md`.
+A plataforma só deve ser liberada quando os itens acima estiverem implementados, testados e documentados, com ausência de vulnerabilidades críticas/altas não mitigadas. 5. As três migrações foram aplicadas ao projeto Supabase `tlpbmatbkdphpvnkprxn` em 04/11/2026. As 16 tabelas públicas foram verificadas com RLS habilitado e os Security Advisors não apontaram alertas de segurança após a migração `202611040003_private_role_helpers.sql`.
+6. Criar o bucket privado `legal-documents`, implementar as políticas de Storage e executar a matriz de testes em `docs/SUPABASE_VALIDATION.md`.
 
 Este documento é um plano inicial, não um laudo de segurança.
