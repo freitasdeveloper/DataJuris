@@ -2,48 +2,59 @@
 
 Última atualização: 04/11/2026
 
-## Entregue neste primeiro ciclo
-- Projeto React + TypeScript + Vite.
-- Identidade visual inicial própria, responsiva.
-- Página inicial com busca local nos dados demonstrativos.
-- Filtro por área do Direito.
-- Lista de modelos demonstrativos.
-- Modal de detalhes.
-- Favoritos persistidos no navegador via localStorage.
-- README, roadmap funcional e workflow de build no GitHub Actions.
+## Frontend entregue
 
-## Ainda não entregue
-- Backend/API e banco de dados.
-- Autenticação, recuperação de senha e controle de acesso.
-- Upload, antivírus, armazenamento e download real.
-- CRUD administrativo persistente.
-- Fórum, artigos, vídeos e contribuições funcionais.
-- IA, pagamentos, analytics de produção e notificações.
-- Testes automatizados unitários, integração, E2E, segurança e carga.
-- Deploy e configuração de domínio.
+- Projeto React 19 + TypeScript + Vite.
+- Identidade visual própria e interface responsiva.
+- Página de exploração com pesquisa e filtros sobre conteúdo demonstrativo local.
+- Modal de detalhes dos documentos demonstrativos.
+- Favoritos persistidos em `localStorage`.
+- Meu Caderno com criação, edição, exclusão e pesquisa de anotações locais.
+- Modal de cadastro/login conectado ao cliente Supabase Auth, listener de sessão e logout.
+- Deploy pelo GitHub Pages.
 
-## Verificação feita
-- Arquivos enviados ao branch `main`.
-- Listagem de conteúdo do GitHub consultada após os commits.
-- README, componente principal e roadmap recuperados do repositório para confirmar publicação.
+## Backend Supabase implantado
 
-## Verificação pendente
-O ambiente desta execução não instalou dependências nem executou `npm run build`. O workflow CI foi adicionado para realizar a verificação de build no GitHub Actions após o push. Até a conclusão bem-sucedida do workflow, a compilação deve ser considerada não verificada.
+Projeto `tlpbmatbkdphpvnkprxn` (`https://tlpbmatbkdphpvnkprxn.supabase.co`).
+
+- [x] Seis arquivos SQL versionados em `supabase/migrations/`.
+- [x] 16 tabelas públicas com RLS habilitado.
+- [x] Dados iniciais: 12 áreas jurídicas e 8 tipos de documentos.
+- [x] Funções de autorização internas no schema `private`; wrappers públicos `SECURITY INVOKER`.
+- [x] Bucket `legal-documents` privado, limite de 20 MB e allowlist de tipos.
+- [x] Três políticas de Storage para upload, leitura e atualização por proprietário/staff.
+- [x] 15 índices de chaves estrangeiras.
+- [x] Cinco triggers de integridade/moderação.
+- [x] Security Advisor sem alertas na última consulta.
+- [ ] Reconciliar o histórico remoto das migrações pelo workflow manual do GitHub.
+
+## Funcionalidades ainda não integradas ponta a ponta
+
+- Documentos e biblioteca continuam usando dados demonstrativos locais; CRUD real não está conectado.
+- Favoritos e caderno são locais ao navegador, sem sincronização por usuário.
+- Upload/download real no Storage ainda não está conectado à interface.
+- Submissões e fluxo de moderação ainda não estão integrados à interface.
+- Fórum, denúncias e artigos ainda não têm fluxos completos no frontend.
+- Painel administrativo não foi implementado.
+- Recuperação de senha, confirmação de e-mail e telas de gestão de conta não estão completas.
+
+## Verificações
+
+- [x] Workflow CI do frontend: instalação, type-check e build aprovados no commit `e7ebc65fafc9fbc51b3366328e75b296162e7b3e`.
+- [ ] Workflow de testes de banco/pgTAP: execução do GitHub Actions pendente de conclusão.
+- [x] Consulta remota confirmou 16 tabelas com RLS, 3 políticas de Storage, 5 triggers distintos e 15 índices.
+- [x] Security Advisor: nenhum alerta na última consulta.
+- [ ] Performance Advisor: resolver 18 avisos de initplan e revisar 6 grupos de políticas permissivas sobrepostas; avaliar os 26 índices sem uso somente após tráfego real.
+- [ ] Criar duas contas comuns, uma moderadora e uma administradora para executar testes reais de isolamento.
+- [ ] Testar Auth, e-mail, redirects e recuperação de senha.
+- [ ] Testar upload/download e tentativas de acesso cruzado no Storage.
+- [ ] Executar testes E2E, acessibilidade, LGPD, backup/restauração e carga.
 
 ## Regra para publicação
-Não liberar o sistema para uso comercial enquanto autenticação, autorização, persistência, segurança de arquivos, privacidade, backup, observabilidade e testes dos fluxos críticos não estiverem implementados e aprovados.
 
+O DataJuris permanece em desenvolvimento. Não liberar cadastro público, dados reais ou uso comercial enquanto os fluxos críticos, controles de autorização, testes de isolamento, privacidade, backups e monitoramento não estiverem implementados e aprovados.
 
-## Integração Supabase — atualização
-
-- [x] URL e chave publishable do projeto configuradas como padrão público do frontend.
-- [x] Variáveis locais `VITE_SUPABASE_URL` e `VITE_SUPABASE_PUBLISHABLE_KEY` documentadas.
-- [x] Migração inicial de estrutura disponível.
-- [x] Migração adicional de endurecimento de políticas RLS criada.
-- [x] Guia de validação e matriz de testes documentados.
-- [ ] Aplicar as migrações no projeto Supabase real e confirmar no histórico.
-- [ ] Criar bucket privado e políticas de Storage.
-- [ ] Executar testes reais com usuários distintos.
-- [ ] Validar Auth, e-mail, redirects e recuperação de senha.
-
-A compilação do frontend e o deploy do GitHub Pages passaram após a configuração pública. Isso não comprova que as migrações foram aplicadas nem que o backend está liberado para produção.
+Consulte:
+- [Validação Supabase](SUPABASE_VALIDATION.md)
+- [Revisão de segurança](SECURITY_REVIEW.md)
+- [Guia de implantação](DEPLOYMENT.md)
