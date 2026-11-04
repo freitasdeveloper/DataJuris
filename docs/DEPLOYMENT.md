@@ -1,26 +1,28 @@
 # Configuração do ambiente e publicação
 
-## Projeto Supabase conectado
+## Projeto Supabase selecionado
 
-O frontend do DataJuris está configurado para usar o projeto Supabase abaixo por meio de uma URL e de uma chave **publishable**:
+O frontend do DataJuris está apontado para o projeto Supabase:
 
-- URL do projeto: `https://acqausvydpkvciwmyski.supabase.co`
-- Chave: publishable (pública; não é uma credencial administrativa)
+- Project ID: `tlpbmatbkdphpvnkprxn`
+- URL: `https://tlpbmatbkdphpvnkprxn.supabase.co`
+- Chave publishable: deve ser obtida nas configurações/API Keys deste mesmo projeto e configurada como variável de ambiente.
 
-Esses valores públicos são usados como configuração padrão do cliente web. Variáveis locais podem substituí-los. Não documente nem versione chaves `sb_secret_*`, `service_role`, senhas ou strings de conexão.
+A chave publishable do projeto anterior não deve ser reutilizada. Não documente nem versione chaves `sb_secret_*`, `service_role`, senhas ou strings de conexão.
 
 ## Pré-requisitos
 
 - Node.js 22 LTS ou compatível.
-- Projeto Supabase.
+- Acesso ao projeto Supabase acima.
+- Publishable key correspondente ao mesmo projeto.
 - Hospedagem estática para Vite (GitHub Pages, Cloudflare Pages, Netlify ou Vercel).
 - E-mail transacional configurado no Supabase Auth para produção.
 
 ## Banco de dados
 
-1. Abra o projeto no [Supabase Dashboard](https://supabase.com/dashboard/project/acqausvydpkvciwmyski).
+1. Abra o [Dashboard do novo projeto](https://supabase.com/dashboard/project/tlpbmatbkdphpvnkprxn).
 2. Instale Supabase CLI e autentique localmente.
-3. Execute `supabase link --project-ref acqausvydpkvciwmyski`.
+3. Execute `supabase link --project-ref tlpbmatbkdphpvnkprxn`.
 4. Revise as migrações em `supabase/migrations/` (inicial e endurecimento de segurança) e execute `supabase db push` para aplicá-las em ordem.
 5. Configure o bucket privado `legal-documents`, limite de 20 MB e políticas de Storage. Não torne arquivos privados públicos.
 6. Configure URLs permitidas de autenticação, redirect URLs e SMTP.
@@ -28,14 +30,15 @@ Esses valores públicos são usados como configuração padrão do cliente web. 
    `insert into public.user_roles(user_id, role) values ('UUID_CONFIRMADO', 'admin');`
    Nunca conceda admin a partir de metadados enviados pelo navegador.
 
-**Importante:** fornecer a URL e a publishable key não aplica a migração ao banco. A migração ainda precisa ser revisada e executada no projeto Supabase.
+**Importante:** apontar o frontend ao projeto não aplica migrações ao banco. Confirme o histórico e revise o diff antes de executar `supabase db push` no novo projeto.
 
 ## Frontend
 
-1. Copie `.env.example` para `.env.local` se quiser usar uma configuração local explícita.
-2. Configure `VITE_SUPABASE_URL` e `VITE_SUPABASE_PUBLISHABLE_KEY` quando precisar substituir os valores padrão.
+1. Copie `.env.example` para `.env.local`.
+2. Configure `VITE_SUPABASE_URL` e `VITE_SUPABASE_PUBLISHABLE_KEY` com os valores do novo projeto.
 3. Execute `npm install`, `npm run build` e `npm run dev`.
-4. Publique o diretório `dist`. O workflow do GitHub Pages já compila o frontend com a configuração pública padrão.
+4. Configure as mesmas variáveis no ambiente de build do GitHub Actions para que o site publicado possa conectar-se.
+5. Publique o diretório `dist`. O cliente não será considerado configurado até receber a publishable key correta.
 
 A publishable key é destinada ao frontend e pode ser visualizada por qualquer visitante do site. Ela **não protege os dados por si só**: habilite RLS em todas as tabelas expostas, revise privilégios e políticas para `anon` e `authenticated`, e teste acessos com contas diferentes.
 
