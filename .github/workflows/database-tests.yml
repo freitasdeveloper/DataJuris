@@ -32,7 +32,3 @@ jobs:
 
       - name: Run database security tests
         run: supabase test db
-
-      - name: Stop local Supabase database
-        if: always()
-        run: supabase stop --no-backup
