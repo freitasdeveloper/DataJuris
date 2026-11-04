@@ -1,0 +1,74 @@
+name: Repair Supabase Migration History
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmation:
+        description: "Type REPAIR-DATAJURIS-HISTORY to confirm the tracking-only repair"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  repair:
+    name: Reconcile the remote migration ledger
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+      SUPABASE_PROJECT_REF: tlpbmatbkdphpvnkprxn
+      CONFIRMATION: ${{ inputs.confirmation }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Require explicit confirmation and credentials
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$CONFIRMATION" != "REPAIR-DATAJURIS-HISTORY" ]]; then
+            echo "Confirmation text did not match; no changes were made."
+            exit 1
+          fi
+          if [[ -z "$SUPABASE_ACCESS_TOKEN" || -z "$SUPABASE_DB_PASSWORD" ]]; then
+            echo "Add SUPABASE_ACCESS_TOKEN and SUPABASE_DB_PASSWORD as GitHub Actions secrets."
+            exit 1
+          fi
+
+      - name: Set up Supabase CLI
+        uses: supabase/setup-cli@v3
+        with:
+          version: 2.84.2
+
+      - name: Link the exact DataJuris project
+        run: supabase link --project-ref "$SUPABASE_PROJECT_REF"
+
+      - name: Show migration history before repair
+        run: supabase migration list --linked
+
+      - name: Remove connector-generated history entries
+        shell: bash
+        run: |
+          set -euo pipefail
+          supabase migration repair \
+            20261104221825 20261104221843 20261104221927 \
+            20261104222116 20261104222119 20261104222122 20261104222126 \
+            20261104222340 \
+            20261104222430 20261104222435 20261104222437 \
+            20261104222439 20261104222440 20261104222442 20261104222453 \
+            --status reverted --linked
+
+      - name: Register the six repository migrations as applied
+        shell: bash
+        run: |
+          set -euo pipefail
+          supabase migration repair \
+            202611040001 202611040002 202611040003 \
+            202611040004 202611040005 202611040006 \
+            --status applied --linked
+
+      - name: Verify the reconciled migration history
+        run: supabase migration list --linked
