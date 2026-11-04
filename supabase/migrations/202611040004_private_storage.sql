@@ -1,5 +1,5 @@
--- Private legal document storage for DataJuris.
--- Files are stored under a first-level folder equal to the authenticated user's UUID.
+-- DataJuris private Storage bucket and owner-scoped access policies.
+-- The bucket is private. Client roles cannot read files belonging to other users.
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values (
   'legal-documents',
@@ -16,66 +16,64 @@ values (
   ]
 )
 on conflict (id) do update
-set
-  public = false,
-  file_size_limit = excluded.file_size_limit,
-  allowed_mime_types = excluded.allowed_mime_types;
+set public = false,
+    file_size_limit = excluded.file_size_limit,
+    allowed_mime_types = excluded.allowed_mime_types;
 
--- Users can upload only into their own UUID folder.
-drop policy if exists "DataJuris users upload own legal files" on storage.objects;
-create policy "DataJuris users upload own legal files"
-on storage.objects
-for insert
-to authenticated
-with check (
-  bucket_id = 'legal-documents'
-  and (storage.foldername(name))[1] = (select auth.uid())::text
-);
+do $$
+begin
+  if not exists (
+    select 1 from pg_policies
+    where schemaname = 'storage' and tablename = 'objects'
+      and policyname = 'DataJuris users upload own legal files'
+  ) then
+    create policy "DataJuris users upload own legal files"
+    on storage.objects for insert to authenticated
+    with check (
+      bucket_id = 'legal-documents'
+      and (storage.foldername(name))[1] = (select auth.uid())::text
+    );
+  end if;
 
--- Only the owner or staff may read private files.
-drop policy if exists "DataJuris owners and staff read legal files" on storage.objects;
-create policy "DataJuris owners and staff read legal files"
-on storage.objects
-for select
-to authenticated
-using (
-  bucket_id = 'legal-documents'
-  and (
-    (storage.foldername(name))[1] = (select auth.uid())::text
-    or public.is_staff()
-  )
-);
+  if not exists (
+    select 1 from pg_policies
+    where schemaname = 'storage' and tablename = 'objects'
+      and policyname = 'DataJuris owners and staff read legal files'
+  ) then
+    create policy "DataJuris owners and staff read legal files"
+    on storage.objects for select to authenticated
+    using (
+      bucket_id = 'legal-documents'
+      and (
+        (storage.foldername(name))[1] = (select auth.uid())::text
+        or public.is_staff()
+      )
+    );
+  end if;
 
--- Owners can replace or remove their own files; staff can moderate files.
-drop policy if exists "DataJuris owners and staff update legal files" on storage.objects;
-create policy "DataJuris owners and staff update legal files"
-on storage.objects
-for update
-to authenticated
-using (
-  bucket_id = 'legal-documents'
-  and (
-    (storage.foldername(name))[1] = (select auth.uid())::text
-    or public.is_staff()
-  )
-)
-with check (
-  bucket_id = 'legal-documents'
-  and (
-    (storage.foldername(name))[1] = (select auth.uid())::text
-    or public.is_staff()
-  )
-);
+  if not exists (
+    select 1 from pg_policies
+    where schemaname = 'storage' and tablename = 'objects'
+      and policyname = 'DataJuris owners and staff update legal files'
+  ) then
+    create policy "DataJuris owners and staff update legal files"
+    on storage.objects for update to authenticated
+    using (
+      bucket_id = 'legal-documents'
+      and (
+        (storage.foldername(name))[1] = (select auth.uid())::text
+        or public.is_staff()
+      )
+    )
+    with check (
+      bucket_id = 'legal-documents'
+      and (
+        (storage.foldername(name))[1] = (select auth.uid())::text
+        or public.is_staff()
+      )
+    );
+  end if;
+end $$;
 
-drop policy if exists "DataJuris owners and staff delete legal files" on storage.objects;
-create policy "DataJuris owners and staff delete legal files"
-on storage.objects
-for delete
-to authenticated
-using (
-  bucket_id = 'legal-documents'
-  and (
-    (storage.foldername(name))[1] = (select auth.uid())::text
-    or public.is_staff()
-  )
-);
+-- No client-side DELETE policy is intentionally provided. File deletion must
+-- be performed by a trusted server-side workflow after validating ownership.
