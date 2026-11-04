@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { categories, documents } from './data'
 import AuthModal from './components/AuthModal'
+import StudyNotebook from './components/StudyNotebook'
 import { signOut } from './lib/auth'
 import { supabase } from './lib/supabase'
 
@@ -63,7 +64,7 @@ export default function App() {
           <span>data<span>juris</span><small>CONHECIMENTO JURÍDICO</small></span>
         </a>
         <nav className="main-nav">
-          {['Explorar', 'Biblioteca', 'Comunidade', 'Conteúdos'].map((item) => <button key={item} className={activeTab === item ? 'nav-link active' : 'nav-link'} onClick={() => setActiveTab(item)}>{item}</button>)}
+          {['Explorar', 'Biblioteca', 'Meu caderno', 'Comunidade', 'Conteúdos'].map((item) => <button key={item} className={activeTab === item ? 'nav-link active' : 'nav-link'} onClick={() => setActiveTab(item)}>{item}</button>)}
         </nav>
         <div className="top-actions">
           {userEmail ? <><span className="user-label" title={userEmail}>{userEmail}</span><button className="login-button" onClick={handleSignOut}>Sair</button></> : <><button className="login-button" onClick={() => setAuthMode('login')}>Entrar</button><button className="primary-button small" onClick={() => setAuthMode('signup')}>Criar conta <span>↗</span></button></>}
@@ -91,6 +92,8 @@ export default function App() {
           <div className="document-grid">{visibleDocuments.map((doc) => <article className="document-card" key={doc.id}><div className="doc-card-top"><span className="file-type">{doc.format}</span><button className={favorites.includes(doc.id) ? 'favorite active' : 'favorite'} aria-label="Favoritar documento" onClick={() => toggleFavorite(doc.id)}>{favorites.includes(doc.id) ? '♥' : '♡'}</button></div><div className="doc-category">{doc.area}</div><h3>{doc.title}</h3><p>{doc.description}</p><div className="doc-card-bottom"><span>{doc.kind} · {doc.updatedAt}</span><button onClick={() => setSelectedId(doc.id)}>Ver detalhes <span>↗</span></button></div></article>)}</div>
           {visibleDocuments.length === 0 && <div className="empty-state"><span>⌕</span><h3>Nenhum documento encontrado</h3><p>Tente outra palavra-chave ou selecione uma área diferente.</p><button className="text-button" onClick={() => { setQuery(''); setActiveCategory('Todas as áreas'); setActiveTab('Explorar') }}>Limpar filtros</button></div>}
         </section>
+
+        {activeTab === 'Meu caderno' && <StudyNotebook />}
 
         <section className="contribute"><div><div className="eyebrow">CONSTRUÇÃO COLABORATIVA</div><h2>Conhecimento cresce<br />quando é compartilhado.</h2><p>Em breve, você poderá enviar materiais, colaborar com a comunidade e acompanhar suas contribuições em um só lugar.</p></div><button className="light-button" onClick={() => setAuthMode('signup')}>Conheça a área de contribuição <span>→</span></button></section>
       </main>
