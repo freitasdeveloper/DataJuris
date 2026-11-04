@@ -118,17 +118,17 @@ npm run preview
 
 ## 🔑 Configuração do Supabase
 
-A integração está preparada para receber as variáveis de ambiente. Para habilitar a autenticação e os recursos conectados:
+A integração está preparada para o projeto `tlpbmatbkdphpvnkprxn` (`https://tlpbmatbkdphpvnkprxn.supabase.co`); configure a publishable key correspondente a esse projeto. Para habilitar a autenticação e os recursos conectados:
 
 1. Crie um projeto no [Supabase](https://supabase.com/).
 2. Copie o arquivo de exemplo `.env.example` para `.env.local`.
-3. Preencha `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY` com os dados do seu projeto.
-4. Aplique a migração SQL disponível em `supabase/migrations/`.
+3. Preencha `VITE_SUPABASE_URL` e `VITE_SUPABASE_PUBLISHABLE_KEY` com os dados do mesmo projeto Supabase.
+4. Aplique a migração SQL disponível em `supabase/migrations/` no projeto correto.
 5. Revise e teste as políticas de segurança e o armazenamento antes de disponibilizar dados reais.
 
 **Atenção:** nunca coloque chaves secretas ou `service_role` no código do navegador, no repositório ou em variáveis com prefixo `VITE_`. A chave pública/anon não substitui as políticas de segurança do banco.
 
-Mais detalhes: [guia de implantação](docs/DEPLOYMENT.md) · [revisão inicial de segurança](docs/SECURITY_REVIEW.md).
+Mais detalhes: [guia de implantação](docs/DEPLOYMENT.md) · [validação Supabase](docs/SUPABASE_VALIDATION.md) · [revisão inicial de segurança](docs/SECURITY_REVIEW.md).
 
 ## 🗺️ Roadmap
 
