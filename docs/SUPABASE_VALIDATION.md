@@ -20,6 +20,7 @@ Este roteiro deve ser concluído antes de habilitar cadastros públicos ou armaz
 - **Storage aplicado em 04/11/2026:** bucket `legal-documents` privado, limite 20 MB e MIME allowlist (PDF, DOC, DOCX, ODT, TXT e RTF).
 - **Políticas de Storage aplicadas:** upload apenas na pasta UUID do próprio usuário; leitura e atualização pelo proprietário ou equipe staff.
 - **Integridade de conteúdo:** triggers bloqueiam alteração de ocultação/bloqueio por autores, status de denúncia fora de `open`, metadados de moderação em novas submissões e metadados de revisão/publicação por autores.
+- **Desempenho:** os 15 avisos de chaves estrangeiras sem índice foram resolvidos pela migração `202611040005_foreign_key_indexes.sql`. Permanecem avisos de otimização de expressões RLS (18), políticas permissivas sobrepostas (6) e índices ainda sem uso (26; esperado antes de haver tráfego real).
 - **Restrição intencional:** não existe política de exclusão pelo cliente; exclusões devem passar por fluxo confiável no servidor.
 - **Pendente:** testes de isolamento com contas distintas, Auth por e-mail, fluxos reais de upload/download e reconciliação do histórico local da Supabase CLI.
 
@@ -125,6 +126,8 @@ No Supabase Dashboard:
 - [x] Security Advisors sem alertas após o endurecimento de funções privilegiadas.
 - [x] Bucket privado criado e políticas de upload/leitura/atualização implantadas.
 - [x] Triggers de integridade protegem os campos de moderação e revisão.
+- [x] Índices para as 15 chaves estrangeiras apontadas pelo Performance Advisor.
+- [ ] Otimizar avisos de initplan e revisar políticas permissivas sobrepostas após testes funcionais.
 - [ ] Isolamento do Storage testado com A e B (incluindo tentativas de acesso cruzado).
 - [ ] Matriz de testes executada sem falhas.
 - [ ] E-mail, recuperação de senha e URLs de redirect validados.
