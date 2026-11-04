@@ -33,11 +33,12 @@
 
 ## Pontos que exigem revisão antes de produção
 1. Testar todas as políticas RLS com usuário anônimo, usuário A, usuário B, moderador e administrador.
-2. Revisar políticas do Storage separadamente; as migrações ainda não criam as políticas de bucket.
+2. Políticas de Storage foram criadas para bucket privado, com acesso limitado por UUID e papel staff. Ainda faltam testes com usuários reais e auditoria dos fluxos de upload/download.
 3. Implementar moderação e trilha de auditoria em todas as operações sensíveis.
 4. Verificar escape/sanitização e CSP contra XSS.
 5. Configurar limites de requisição e proteção antiabuso.
 6. Fazer revisão LGPD, contratos de operadores, retenção e atendimento de titulares.
+7. Reconciliar o histórico local da Supabase CLI com as versões remotas geradas durante a aplicação via conector, conforme `docs/SUPABASE_VALIDATION.md`.
 7. Fazer SAST, dependabot, análise de dependências, pentest e testes de carga.
 
 ## Critério de liberação
