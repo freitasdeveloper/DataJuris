@@ -27,12 +27,12 @@ jobs:
         with:
           version: 2.84.2
 
-      - name: Start clean local Supabase stack
-        run: supabase start
+      - name: Start clean local Supabase database
+        run: supabase db start
 
       - name: Run database security tests
         run: supabase test db
 
-      - name: Stop local Supabase stack
+      - name: Stop local Supabase database
         if: always()
         run: supabase stop --no-backup
