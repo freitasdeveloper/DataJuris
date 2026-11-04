@@ -32,3 +32,18 @@ O ambiente desta execução não instalou dependências nem executou `npm run bu
 
 ## Regra para publicação
 Não liberar o sistema para uso comercial enquanto autenticação, autorização, persistência, segurança de arquivos, privacidade, backup, observabilidade e testes dos fluxos críticos não estiverem implementados e aprovados.
+
+
+## Integração Supabase — atualização
+
+- [x] URL e chave publishable do projeto configuradas como padrão público do frontend.
+- [x] Variáveis locais `VITE_SUPABASE_URL` e `VITE_SUPABASE_PUBLISHABLE_KEY` documentadas.
+- [x] Migração inicial de estrutura disponível.
+- [x] Migração adicional de endurecimento de políticas RLS criada.
+- [x] Guia de validação e matriz de testes documentados.
+- [ ] Aplicar as migrações no projeto Supabase real e confirmar no histórico.
+- [ ] Criar bucket privado e políticas de Storage.
+- [ ] Executar testes reais com usuários distintos.
+- [ ] Validar Auth, e-mail, redirects e recuperação de senha.
+
+A compilação do frontend e o deploy do GitHub Pages passaram após a configuração pública. Isso não comprova que as migrações foram aplicadas nem que o backend está liberado para produção.
