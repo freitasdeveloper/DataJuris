@@ -69,7 +69,7 @@ with check (
 -- Bound report text to reduce abuse and keep moderation manageable.
 alter table public.forum_reports
   add constraint forum_reports_reason_length
-  check (char_length(btrim(reason)) between 10 and 1000);
+  check (char_length(btrim(reason)) between 10 and 1000) not valid;
 
 -- Indexes for common owner/moderation queries.
 create index if not exists submissions_user_created_idx
