@@ -9,7 +9,7 @@ const url = import.meta.env.VITE_SUPABASE_URL || publicProjectUrl
 const publishableKey =
   import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
   import.meta.env.VITE_SUPABASE_ANON_KEY ||
-  ''
+  'sb_publishable_AgFMerfqNtbucpqQBCZBYg_z8WewqKI'
 
 export const isSupabaseConfigured = Boolean(url && publishableKey)
 
