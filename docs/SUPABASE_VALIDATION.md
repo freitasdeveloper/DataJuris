@@ -26,9 +26,9 @@ Este roteiro deve ser concluído antes de habilitar cadastros públicos ou armaz
 
 ## Histórico de migrações e Supabase CLI
 
-As migrações foram aplicadas diretamente ao projeto pelo conector Supabase. O histórico remoto recebeu versões geradas pelo serviço (por exemplo, `20261104221825`), enquanto os arquivos do repositório usam versões `202611040001` a `202611040004`. **Não execute `supabase db push` antes de reconciliar essa diferença**, pois a CLI pode tentar reaplicar migrações já executadas.
+As migrações foram aplicadas diretamente ao projeto pelo conector Supabase. O histórico remoto recebeu versões geradas pelo serviço (por exemplo, `20261104221825`), enquanto os arquivos do repositório usam versões `202611040001` a `202611040006`. **Não execute `supabase db push` antes de reconciliar essa diferença**, pois a CLI pode tentar reaplicar migrações já executadas.
 
-Com Supabase CLI autenticada e o projeto correto selecionado, reconcilie os quatro arquivos locais já aplicados:
+Com Supabase CLI autenticada e o projeto correto selecionado, reconcilie os seis arquivos locais já aplicados:
 
 ```bash
 supabase link --project-ref tlpbmatbkdphpvnkprxn
