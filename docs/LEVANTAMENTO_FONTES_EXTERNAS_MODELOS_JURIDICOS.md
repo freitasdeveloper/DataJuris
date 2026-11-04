@@ -89,3 +89,15 @@ Classificar cada item em um dos seguintes estados:
 ## 6. Situação desta coleta
 
 Esta rodada identificou fontes e famílias documentais adicionais fora do DocJuris. O catálogo é um roteiro de aquisição e indexação; não representa afirmação de que todos os arquivos listados já foram baixados ou importados. A importação binária deve ocorrer por obtenção direta dos links de download permitidos e por um fluxo de upload disponível no projeto, sem depender de ZIP enviado pelo usuário.
+
+
+## 7. Novas fontes identificadas nesta continuação
+
+| Fonte | Conteúdo identificado | Link | Tratamento |
+|---|---|---|---|
+| Procuradoria-Geral do Município de Sorocaba | Manual de diretrizes e padronização de documentos da PGM; o texto descreve um modelo sugerido de petição no anexo VI | https://juridico.sorocaba.sp.gov.br/pgm/wp-content/uploads/sites/3/2024/04/manual-de-diretrizes-e-padronizaco-de-documentos-e-identidade-visual-da-pgm-sorocaba.pdf | Documento institucional; verificar e extrair o anexo/modelo, respeitando finalidade e termos |
+| Prefeitura de São José dos Campos | Catálogo extenso de formulários para processos municipais, incluindo cadastro de corretor, cadastro de imóvel, procurações, requerimentos, PPP e declarações | https://servicos.sjc.sp.gov.br/servicos/abertura_de_processo/formularios_e_modelos.aspx | Fonte oficial; separar modelos imobiliários dos administrativos gerais |
+| Junta Comercial, Industrial e Serviços do RS | Alterações contratuais, requerimentos, declarações, autenticação de livros e documentos empresariais | https://jucisrs.rs.gov.br/formularios | Fonte oficial; validar versão e formato antes de indexar |
+| Ministério da Justiça — Cooperação Internacional | Modelos DOC e PDF preenchível de cartas rogatórias e pedidos de cooperação civil/comercial/trabalhista, incluindo obtenção de provas, informações bancárias e localização de pessoas | https://www.gov.br/mj/pt-br/assuntos/sua-protecao/cooperacao-internacional/cooperacao-juridica-internacional-em-materia-civil/formularios-e-modelos-1 | Fonte oficial; catalogar por diligência e jurisdição |
+| Receita Federal — catálogo complementar | Laudo pericial (03/03/2026), declaração de inexistência de inventário/arrolamento (30/10/2025) e proposta de consensualidade (01/11/2024) | https://www.gov.br/receitafederal/pt-br/centrais-de-conteudo/formularios/modelos?b_start:int=20 | Fonte oficial; as datas referem-se a cada item, não a todos os modelos |
+
