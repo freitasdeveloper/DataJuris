@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { categories, documents } from './data'
 import AuthModal from './components/AuthModal'
 import StudyNotebook from './components/StudyNotebook'
+import LegalLibrary from './components/LegalLibrary'
 import { signOut } from './lib/auth'
 import { supabase } from './lib/supabase'
 
@@ -72,7 +73,7 @@ export default function App() {
       </header>
 
       <main>
-        {activeTab === 'Meu caderno' ? <StudyNotebook /> : <>
+        {activeTab === 'Biblioteca' ? <LegalLibrary /> : activeTab === 'Meu caderno' ? <StudyNotebook /> : <>
         <section className="hero">
           <div className="hero-copy">
             <div className="eyebrow"><span /> CENTRAL DE CONHECIMENTO JURÍDICO</div>
