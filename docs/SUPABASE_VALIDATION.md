@@ -14,18 +14,24 @@ Este roteiro deve ser concluído antes de habilitar cadastros públicos ou armaz
 - **Verificação do schema:** 16 tabelas públicas encontradas; RLS habilitado nas 16.
 - **Verificação de segurança:** Security Advisors sem alertas após a terceira migração; funções `SECURITY DEFINER` foram retiradas do schema público (os helpers internos ficam no schema `private`).
 - Áreas jurídicas e tipos de documentos iniciais inseridos (12 áreas e 8 tipos).
-- **Pendente:** bucket `legal-documents` ainda não existe; políticas de Storage e testes funcionais com contas distintas não foram executados.
+- **Storage aplicado em 04/11/2026:** bucket `legal-documents` privado, limite 20 MB e MIME allowlist (PDF, DOC, DOCX, ODT, TXT e RTF).
+- **Políticas de Storage aplicadas:** upload apenas na pasta UUID do próprio usuário; leitura e atualização pelo proprietário ou equipe staff.
+- **Restrição intencional:** não existe política de exclusão pelo cliente; exclusões devem passar por fluxo confiável no servidor.
+- **Pendente:** testes de isolamento com contas distintas, Auth por e-mail, fluxos reais de upload/download e reconciliação do histórico local da Supabase CLI.
 
-## Aplicar migrações
+## Histórico de migrações e Supabase CLI
 
-Com Supabase CLI autenticada e o projeto correto selecionado:
+As migrações foram aplicadas diretamente ao projeto pelo conector Supabase. O histórico remoto recebeu versões geradas pelo serviço (por exemplo, `20261104221825`), enquanto os arquivos do repositório usam versões `202611040001` a `202611040004`. **Não execute `supabase db push` antes de reconciliar essa diferença**, pois a CLI pode tentar reaplicar migrações já executadas.
+
+Com Supabase CLI autenticada e o projeto correto selecionado, reconcilie os quatro arquivos locais já aplicados:
 
 ```bash
 supabase link --project-ref tlpbmatbkdphpvnkprxn
-supabase db push
+supabase migration repair --status applied 202611040001 202611040002 202611040003 202611040004
+supabase migration list
 ```
 
-Antes de confirmar a operação, confira o diff apresentado pela CLI. Como este é um Project ID diferente do anteriormente documentado, não presuma que o histórico de migrações ou os dados do projeto anterior existam aqui.
+Confirme que as quatro versões locais aparecem como aplicadas e que não há migrações pendentes inesperadas. Só então use `supabase db push` para futuras migrações. Não marque versões como aplicadas se os respectivos arquivos locais não corresponderem ao SQL efetivamente implantado.
 
 ## Verificar tabelas e RLS
 
@@ -61,13 +67,19 @@ order by tablename, policyname;
 
 ## Configurar Storage privado
 
-Crie o bucket `legal-documents` com:
+O bucket já foi criado pela migração `202611040004_private_storage.sql` com:
 - Público: desativado.
 - Limite máximo: 20 MB.
-- Tipos permitidos definidos por uma lista explícita de formatos necessários.
-- Pastas de submissão com prefixo do UUID do usuário.
+- MIME permitidos: PDF, DOC, DOCX, ODT, TXT e RTF.
+- Pasta de primeiro nível obrigatória: UUID do usuário autenticado.
 
-A migração exige que `submissions.storage_path` comece com `<UUID-do-usuário>/`. A consulta de validação confirmou que o bucket ainda não existe. As políticas do Storage precisam ser criadas e testadas separadamente. Não libere upload enquanto elas não estiverem prontas.
+Políticas implantadas:
+- INSERT: usuário autenticado só envia para a própria pasta.
+- SELECT: proprietário ou staff.
+- UPDATE: proprietário ou staff.
+- DELETE: sem política de cliente; deve ser feito por backend confiável.
+
+A migração exige que `submissions.storage_path` comece com `<UUID-do-usuário>/`. Ainda é necessário testar upload/download com duas contas reais, incluindo tentativa de acesso cruzado. Não habilite o fluxo de submissão até esses testes passarem.
 
 ## Matriz de testes obrigatória
 
@@ -107,7 +119,8 @@ No Supabase Dashboard:
 - [x] As três migrações aparecem no histórico do novo banco.
 - [x] Todas as 16 tabelas públicas têm RLS habilitado.
 - [x] Security Advisors sem alertas após o endurecimento de funções privilegiadas.
-- [ ] Bucket privado e políticas de Storage testados com A e B.
+- [x] Bucket privado criado e políticas de upload/leitura/atualização implantadas.
+- [ ] Isolamento do Storage testado com A e B (incluindo tentativas de acesso cruzado).
 - [ ] Matriz de testes executada sem falhas.
 - [ ] E-mail, recuperação de senha e URLs de redirect validados.
 - [ ] Backups e restauração testados.
